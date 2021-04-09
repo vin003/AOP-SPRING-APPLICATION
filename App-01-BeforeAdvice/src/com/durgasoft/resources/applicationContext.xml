@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+        
+    <!-- bean  -->
+    <bean id="empBean" class="com.durgasoft.beans.Employee">
+    <property name="eno" value="1"/>
+    <property name="ename" value="AAA"/>
+    <property name="esal" value="10000"/>
+    <property name="eaddr" value="Hyd"/>
+    <property name="emobile" value="9988776655"/>
+    <property name="email" value="durga@dss.com"/>
+    </bean>
+    <!-- Target -->
+    <bean id="empService" class="com.durgasoft.service.EmployeeServiceImpl">
+    </bean>
+    
+    <!--Advice -->
+    <bean id="empValidatorAdvice" class="com.durgasoft.advice.validator.EmployeeValidatorAdvice">
+    </bean>
+    
+    <!-- PointCut -->
+    <bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+    <property name="mappedNames">
+    <array>
+    <value>getEmployeeDetails</value>
+   <!--  <value>display</value> -->  
+    </array>
+    </property>
+    </bean>
+     
+    <!-- Advisor -->    
+      <!--   <bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="pointcut" ref="pointcut"/>
+        <property name="advice" ref="empValidatorAdvice"/>
+                </bean> -->
+      <!--   Proxy  -->
+      
+      <bean id="empProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+      <property name="target" ref="empService"/>
+      <property name="interceptorNames">
+       <list>
+       <value>empValidatorAdvice</value>
+       			</list>
+        </property>
+          
+      
+      </bean>       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+</beans>
